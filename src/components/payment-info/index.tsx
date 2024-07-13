@@ -10,8 +10,13 @@ export function PaymentInfo() {
 
       <section className="w-full" >
         <div className="border-b-2 border-gray w-full flex py-5" >
-          <div className="flex flex-col gap-6 border w-8">
-            
+          <div className="flex flex-col items-center justify-center gap-7 ml-2 mr-4 py-1.5">
+            <div role="separator" className="relative bottom-0 w-[2px] h-full bg-gray" >
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 bg-white border-2 border-green w-4 h-4 rounded-full" >
+              </div>
+              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 bg-white border-2 border-gray w-4 h-4 rounded-full">
+              </div>
+            </div>
           </div>
           <div className="w-full flex flex-col items-center gap-4" >
             <div className="w-full flex items-center justify-between" >

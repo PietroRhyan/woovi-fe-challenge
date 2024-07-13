@@ -4,7 +4,7 @@ import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm, SubmitHandler } from "react-hook-form"
 import { Button } from "../button"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select"
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "../ui/select"
 import { Form, FormField, FormItem, FormControl } from "../ui/form"
 import { parcels } from "@/utils/payment-values"
 import { formatCurrency } from "@/utils/format-currency"
@@ -27,13 +27,18 @@ const formSchema = z.object({
     .min(19, 'Número do cartão inválido.')
     .max(19, 'Número do cartão inválido.'),
   validate: z
-    .string(),
+    .string({
+      required_error: "Digite uma data válida."
+    }),
   cvv: z
     .coerce
     .number()
     .positive('Número do CVV inválido.'),
   parcelNumber: z
-    .string(),
+    .string({
+      required_error: 'Selecione uma parcela.'
+    })
+    .min(1, 'Selecione uma parcela'),
 }).superRefine((values, ctx) => {
   if (!validateDate(values.validate)) {
     ctx.addIssue({
@@ -59,7 +64,7 @@ export function CreditCardForm() {
       cpf: '',
       creditCard: '',
       validate: '',
-      parcelNumber: ''
+      parcelNumber: '',
     }
   })
 
@@ -192,46 +197,53 @@ export function CreditCardForm() {
 
         </div>
 
-        <div className="relative w-full" >
-          <label
-            className={`absolute left-5 top-0 -translate-y-1/2 bg-white px-[2px] ${errors.parcelNumber ? "text-red-500" : "text-black"} text-sm font-semibold transition-colors duration-200 z-20`}
-            htmlFor="parcelNumber"
-          >
-            Parcelas
-          </label>
-          <FormField
-            control={control}
-            name="parcelNumber"
-            render={({ field }) => (
-              <FormItem>
-                <Select onValueChange={field.onChange} defaultValue={field.value} {...register('parcelNumber')} >
-                  <FormControl>
-                    <SelectTrigger id="parcelNumber" >
-                      <SelectValue placeholder='Selecione o número de parcelas' />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
+        <FormField
+          control={control}
+          name="parcelNumber"
+          render={({ field }) => (
+            <FormItem className="relative w-full" >
+              <label
+                className={`absolute left-5 top-0 -translate-y-1/2 bg-white px-[2px] ${errors.parcelNumber ? "text-red-500" : "text-black"} text-sm font-semibold transition-colors duration-200 z-20`}
+                htmlFor="parcelNumber"
+              >
+                Parcelas
+              </label>
+              <Select
+                onValueChange={field.onChange}
+                defaultValue={field.value}
+              >
+                <FormControl>
+                  <SelectTrigger className={`${errors.parcelNumber ? 'border-red-500' : 'border-gray'}`} id="parcelNumber" >
+                    <SelectValue placeholder='Selecione o número de parcelas' />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectGroup>
                     {parcels.map((parcel) => (
-                      <SelectItem key={parcel.id} value={parcel.id}>{parcel.parcels}x de {formatCurrency(15300.00 / parcel.parcels)}</SelectItem>
+                      <SelectItem
+                        key={parcel.id}
+                        value={parcel.id}
+                      >
+                        {parcel.parcels}x de {formatCurrency(15300.00 / parcel.parcels)}
+                      </SelectItem>
                     ))}
-                  </SelectContent>
-                </Select>
-              </FormItem>
-            )}
-          >
-          </FormField>
-          {errors.parcelNumber ? (
-            <span className="text-sm font-semibold text-red-500" >Selecione uma parcela</span>
-          ) : null}
-        </div>
-
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+              {errors.parcelNumber ? (
+                <span className="text-sm font-semibold text-red-500" >{errors.parcelNumber.message}</span>
+              ) : null}
+            </FormItem>
+          )}
+        >
+        </FormField>
         <Button
           type="submit"
           name="Pagar"
         />
 
       </form>
-    </Form>
+    </Form >
   )
 }
 
