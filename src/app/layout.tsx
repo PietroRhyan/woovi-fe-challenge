@@ -8,10 +8,11 @@ const nunito = Nunito({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Woovi | Método de Pagamento",
-  description: "Code Challenge da Woovi para o cargo de Frontend Júnior ",
+  description: "Code Challenge da Woovi para o cargo de Frontend Júnior",
   authors: {
     name: "Pietro Rhyan"
-  }
+  },
+  robots: 'index, folow',
 };
 
 export default function RootLayout({
