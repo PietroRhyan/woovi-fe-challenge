@@ -22,9 +22,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${nunito.className} bg-white text-black`}>
-      <Navbar />
-      {children}
-      <Footer />
+        <Navbar />
+        {children}
+        <Footer />
       </body>
     </html>
   );
