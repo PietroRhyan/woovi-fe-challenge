@@ -36,14 +36,27 @@ export default function PaymentPix() {
       </div>
 
       <div className="mx-auto w-[310px]" >
-        <Button 
-          name="Clique para copiar QR Code" 
+        <Button
+          name="Clique para copiar QR Code"
           icon={<FaCopy size={20} />}
           onClick={() => router.push('/payment-credit')}
         />
       </div>
 
-      <PaymentInfo />
+      <PaymentInfo>
+        <PaymentStatusInfo />
+      </PaymentInfo>
     </main>
+  )
+}
+
+function PaymentStatusInfo() {
+  return (
+    <div role="separator" className="relative bottom-0 w-[2px] h-full bg-gray" >
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 bg-white border-2 border-green w-4 h-4 rounded-full" >
+      </div>
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 bg-white border-2 border-gray w-4 h-4 rounded-full">
+      </div>
+    </div>
   )
 }

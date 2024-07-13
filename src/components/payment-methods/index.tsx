@@ -54,7 +54,7 @@ export function PaymentMethods() {
               >
                 <PaymentLabel label='Pix' />
                 <FormControl >
-                  <FormItem className={`border-2 border-gray rounded-[10px] w-full p-5 flex justify-between ${field.value === "one-parcel" ? "border-green bg-green/10 " : "hover:bg-black/5"} transition-colors duration-200`} >
+                  <FormItem className={`border-2 border-gray rounded-[10px] group/unchecked w-full p-5 flex justify-between ${field.value === "one-parcel" ? "border-green group/checked bg-[#F4FbF9]" : "hover:bg-[#F5F5F5]"} transition-colors duration-200`} >
                     <FormLabel className='absolute z-10 w-full h-full left-0 top-0 cursor-pointer' />
                     <div className="flex flex-col w-full gap-1" >
                       <div>
@@ -66,11 +66,11 @@ export function PaymentMethods() {
                         </p>
                       </div>
 
-                      <BonusLabel>
+                      <BonusTag radioId='one-parcel' radioValueChecked={field.value}>
                         <p className="text-white text-base font-semibold" >
                           🤑 <span className="font-extrabold">{formatCurrency(parcels[0].value * (3 / 100))}</span> de volta no seu Pix na hora
                         </p>
-                      </BonusLabel>
+                      </BonusTag>
                     </div>
                     <FormControl >
                       <RadioGroupItem value='one-parcel' />
@@ -87,7 +87,7 @@ export function PaymentMethods() {
                   if (value.parcels > 1) {
                     return (
                       <FormControl key={value.id} >
-                        <FormItem className={`border-x-2 border-t-2 last:border-b-2 border-gray [&:nth-child(2)]:rounded-t-[10px] last:rounded-b-[10px] ${field.value === value.id ? "border-2 border-green bg-green/10 " : "hover:bg-black/5"} w-full p-5 flex justify-between transition-all duration-200`} >
+                        <FormItem className={`border-x-2 border-t-2 last:border-b-2 border-gray group/unchecked [&:nth-child(2)]:rounded-t-[10px] last:rounded-b-[10px] ${field.value === value.id ? "border-2 group-checked border-green bg-[#F4FbF9]" : "hover:bg-[#F5F5F5]"} w-full p-5 flex justify-between transition-all duration-200`} >
                           <FormLabel className='absolute z-10 w-full h-full left-0 top-0 cursor-pointer' />
                           <div className="flex flex-col w-full gap-1">
                             <div>
@@ -98,11 +98,11 @@ export function PaymentMethods() {
                             </div>
 
                             {value.parcels === 4 ? (
-                              <BonusLabel>
+                              <BonusTag radioId={value.id} radioValueChecked={field.value} >
                                 <p className="text-white text-base font-semibold" >
                                   <span className="font-extrabold" >-3% de juros:</span> Melhor opção de parcelamento
                                 </p>
-                              </BonusLabel>
+                              </BonusTag>
                             ) : null}
                           </div>
                           <FormControl>
@@ -133,10 +133,16 @@ function PaymentLabel({ label }: { label: string }) {
   )
 }
 
-function BonusLabel({ children }: { children: React.ReactNode }) {
+type BonusTagProps = {
+  children: React.ReactNode
+  radioId: "one-parcel" | "two-parcel" | "three-parcel" | "four-parcel" | "five-parcel" | "six-parcel" | "seven-parcel",
+  radioValueChecked?: "one-parcel" | "two-parcel" | "three-parcel" | "four-parcel" | "five-parcel" | "six-parcel" | "seven-parcel"
+}
+
+function BonusTag({ children, radioId, radioValueChecked }: BonusTagProps) {
   return (
-    <div className="relative flex items-center w-full h-[34px] px-[10px] bg-blue rounded-l-sm rounded-r-[4px]" >
-      <div className="w-[24px] h-[24px] bg-white rounded-bl-sm rotate-45 absolute right-0 top-[5px] translate-x-1/2"></div>
+    <div className="relative overflow-hidden flex items-center w-full h-[34px] px-[10px] bg-blue rounded-l-[4px] rounded-r-[4px]" >
+      <div className={`w-[24px] h-[24px] group-hover/unchecked:bg-[#F5F5F5] ${radioValueChecked === radioId ? 'bg-[#F4FbF9]' : 'bg-white'} rounded-bl-sm rotate-45 absolute -right-[2px] top-[5px] translate-x-1/2 transition-colors duration-200`}></div>
       {children}
     </div>
   )

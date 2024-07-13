@@ -1,5 +1,5 @@
 export type ValueType = {
-  id: string
+  id: "one-parcel" | "two-parcel" | "three-parcel" | "four-parcel" | "five-parcel" | "six-parcel" | "seven-parcel",
   parcels: number
   value: number
 }

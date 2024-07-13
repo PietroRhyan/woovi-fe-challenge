@@ -1,8 +1,7 @@
 import Image from "next/image"
 
-import qr from "/public/assets/qr-code.png"
-import { Button } from "@/components/button"
-import { FaCopy, FaChevronUp } from "react-icons/fa";
+
+import { FaCheck } from "react-icons/fa";
 import { PaymentInfo } from "@/components/payment-info";
 import { CreditCardForm } from "@/components/credit-card-form";
 
@@ -27,7 +26,21 @@ export default function PaymentCredit() {
 
       <CreditCardForm />
 
-      <PaymentInfo />
+      <PaymentInfo>
+        <PaymentStatusInfo />
+      </PaymentInfo>
     </main>
+  )
+}
+
+function PaymentStatusInfo() {
+  return (
+    <div role="separator" className="relative bottom-0 w-[2px] h-full bg-gray" >
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 bg-green text-white w-4 h-4 rounded-full flex items-center justify-center">
+        <FaCheck size={8} />
+      </div>
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 bg-white border-2 border-green w-4 h-4 rounded-full">
+      </div>
+    </div>
   )
 }
