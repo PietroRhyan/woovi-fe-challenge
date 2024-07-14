@@ -67,7 +67,7 @@ export function PaymentMethods() {
                       </div>
 
                       <BonusTag radioId='one-parcel' radioValueChecked={field.value}>
-                        <p className="text-white text-base font-semibold" >
+                        <p className="text-white text-xs font-semibold xs:text-base truncate" >
                           🤑 <span className="font-extrabold">{formatCurrency(parcels[0].value * (3 / 100))}</span> de volta no seu Pix na hora
                         </p>
                       </BonusTag>
@@ -99,7 +99,7 @@ export function PaymentMethods() {
 
                             {value.parcels === 4 ? (
                               <BonusTag radioId={value.id} radioValueChecked={field.value} >
-                                <p className="text-white text-base font-semibold" >
+                                <p className="text-white text-xs xs:text-base font-semibold truncate" >
                                   <span className="font-extrabold" >-3% de juros:</span> Melhor opção de parcelamento
                                 </p>
                               </BonusTag>
