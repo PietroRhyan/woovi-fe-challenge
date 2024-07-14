@@ -34,7 +34,7 @@ const formSchema = z.object({
     .coerce
     .number()
     .positive('Número do CVV inválido.'),
-  parcelNumber: z
+  parcelValue: z
     .string({
       required_error: 'Selecione uma parcela.'
     })
@@ -68,7 +68,7 @@ export function CreditCardForm({ data }: CreditCardFormProps) {
       cpf: '',
       creditCard: '',
       validate: '',
-      parcelNumber: '',
+      parcelValue: '',
     }
   })
 
@@ -134,7 +134,7 @@ export function CreditCardForm({ data }: CreditCardFormProps) {
             className={`${inputDefaultStyle} ${errors.cpf ? 'border-red-500 focus:border-red-500' : 'border-gray focus:border-black'} w-full`}
           />
           {errors.name ? (
-            <span className="text-sm font-semibold text-red-500" >{errors.name.message}</span>
+            <span className="text-sm font-semibold text-red-500" >{errors.cpf?.message}</span>
           ) : null}
         </div>
 
@@ -205,12 +205,12 @@ export function CreditCardForm({ data }: CreditCardFormProps) {
 
         <FormField
           control={control}
-          name="parcelNumber"
+          name="parcelValue"
           render={({ field }) => (
             <FormItem className="relative w-full" >
               <label
-                className={`absolute left-5 top-0 -translate-y-1/2 bg-white px-[2px] ${errors.parcelNumber ? "text-red-500" : "text-black"} text-sm font-semibold transition-colors duration-200 z-20`}
-                htmlFor="parcelNumber"
+                className={`absolute left-5 top-0 -translate-y-1/2 bg-white px-[2px] ${errors.parcelValue ? "text-red-500" : "text-black"} text-sm font-semibold transition-colors duration-200 z-20`}
+                htmlFor="parcelValue"
               >
                 Parcelas
               </label>
@@ -219,7 +219,7 @@ export function CreditCardForm({ data }: CreditCardFormProps) {
                 defaultValue={field.value}
               >
                 <FormControl>
-                  <SelectTrigger className={`${errors.parcelNumber ? 'border-red-500' : 'border-gray'}`} id="parcelNumber" >
+                  <SelectTrigger className={`${errors.parcelValue ? 'border-red-500' : 'border-gray'}`} id="parcelValue" >
                     <SelectValue placeholder='Selecione o número de parcelas' />
                   </SelectTrigger>
                 </FormControl>
@@ -238,8 +238,8 @@ export function CreditCardForm({ data }: CreditCardFormProps) {
                   ) : null}
                 </SelectContent>
               </Select>
-              {errors.parcelNumber ? (
-                <span className="text-sm font-semibold text-red-500" >{errors.parcelNumber.message}</span>
+              {errors.parcelValue ? (
+                <span className="text-sm font-semibold text-red-500" >{errors.parcelValue.message}</span>
               ) : null}
             </FormItem>
           )}
@@ -249,7 +249,6 @@ export function CreditCardForm({ data }: CreditCardFormProps) {
           type="submit"
           name="Pagar"
         />
-
       </form>
     </Form >
   )
