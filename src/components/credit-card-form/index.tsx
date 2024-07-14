@@ -6,10 +6,10 @@ import { useForm, SubmitHandler } from "react-hook-form"
 import { Button } from "../button"
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "../ui/select"
 import { Form, FormField, FormItem, FormControl } from "../ui/form"
-import { parcels } from "@/utils/payment-values"
+import { parcels, ValueType } from "@/utils/payment-values"
 import { formatCurrency } from "@/utils/format-currency"
 import { cpfMask, creditCardMask, validateMask } from "@/utils/input-masks"
-import { useEffect } from "react"
+import { useEffect} from "react"
 import { validateDate } from "@/utils/validate-date"
 
 const formSchema = z.object({
@@ -52,7 +52,11 @@ const formSchema = z.object({
 
 type formTypeSchema = z.infer<typeof formSchema>
 
-export function CreditCardForm() {
+type CreditCardFormProps = {
+  data?: ValueType
+}
+
+export function CreditCardForm({ data }: CreditCardFormProps) {
   const form = useForm<formTypeSchema>({
     resolver: zodResolver(formSchema),
   })
@@ -88,6 +92,8 @@ export function CreditCardForm() {
     setValue('creditCard', creditCardMask(creditCard))
     setValue('validate', validateMask(validate))
   }, [cpf, creditCard, validate, setValue])
+  
+  const payCreditCardValue = data ? data.value / data.parcels : 0
 
   return (
     <Form {...form}>
@@ -218,16 +224,18 @@ export function CreditCardForm() {
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectGroup>
-                    {parcels.map((parcel) => (
-                      <SelectItem
-                        key={parcel.id}
-                        value={parcel.id}
-                      >
-                        {parcel.parcels}x de {formatCurrency(15300.00 / parcel.parcels)}
-                      </SelectItem>
-                    ))}
-                  </SelectGroup>
+                  {data ? (
+                    <SelectGroup>
+                      {parcels.map((parcel) => (
+                        <SelectItem
+                          key={parcel.id}
+                          value={(payCreditCardValue / parcel.parcels).toString()}
+                        >
+                          {parcel.parcels}x de {formatCurrency(payCreditCardValue / parcel.parcels)}
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                  ) : null}
                 </SelectContent>
               </Select>
               {errors.parcelNumber ? (
