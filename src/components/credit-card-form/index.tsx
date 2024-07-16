@@ -18,47 +18,53 @@ import { formatCurrency } from '@/utils/format-currency'
 import { cpfMask, creditCardMask, validateMask } from '@/utils/input-masks'
 import { useEffect } from 'react'
 import { validateDate } from '@/utils/validate-date'
-
-const formSchema = z
-  .object({
-    name: z
-      .string()
-      .min(2, 'Mínimo de 2 caracteres.')
-      .max(255, 'Máximo de 255 caracteres.')
-      .regex(/^^[a-zA-ZÀ-ÿ\s]+$/, 'Nome deve conter apenas letras.'),
-    cpf: z.string().min(14, 'CPF inválido.').max(14, 'CPF inválido.'),
-    creditCard: z
-      .string()
-      .min(19, 'Número do cartão inválido.')
-      .max(19, 'Número do cartão inválido.'),
-    validate: z.string({
-      required_error: 'Digite uma data válida.',
-    }),
-    cvv: z.coerce.number().positive('Número do CVV inválido.'),
-    parcelValue: z
-      .string({
-        required_error: 'Selecione uma parcela.',
-      })
-      .min(1, 'Selecione uma parcela'),
-  })
-  .superRefine((values, ctx) => {
-    if (!validateDate(values.validate)) {
-      ctx.addIssue({
-        path: ['validate'],
-        code: z.ZodIssueCode.invalid_string,
-        message: 'Digite uma data válida e não vencida.',
-        validation: 'date',
-      })
-    }
-  })
-
-type formTypeSchema = z.infer<typeof formSchema>
+import { useTranslations } from 'next-intl'
 
 type CreditCardFormProps = {
   data?: ValueType
 }
 
 export function CreditCardForm({ data }: CreditCardFormProps) {
+  const t = useTranslations('payment-credit.PaymentForm')
+
+  const formSchema = z
+    .object({
+      name: z
+        .string()
+        .min(2, t('NameInput.Errors.min'))
+        .max(255, t('NameInput.Errors.max'))
+        .regex(/^^[a-zA-ZÀ-ÿ\s]+$/, t('NameInput.Errors.letters')),
+      cpf: z
+        .string()
+        .min(14, t('CPFInput.Errors.invalid'))
+        .max(14, t('CPFInput.Errors.invalid')),
+      creditCard: z
+        .string()
+        .min(19, t('CreditCardInput.Errors.invalid'))
+        .max(19, t('CreditCardInput.Errors.invalid')),
+      validate: z.string({
+        required_error: t('ValidateInput.Errors.invalid'),
+      }),
+      cvv: z.coerce.number().positive(t('CVVInput.Errors.invalid')),
+      parcelValue: z
+        .string({
+          required_error: t('InstallmentsInput.Errors.invalid'),
+        })
+        .min(1, t('InstallmentsInput.Errors.invalid')),
+    })
+    .superRefine((values, ctx) => {
+      if (!validateDate(values.validate)) {
+        ctx.addIssue({
+          path: ['validate'],
+          code: z.ZodIssueCode.invalid_string,
+          message: t('ValidateInput.Errors.invalid'),
+          validation: 'date',
+        })
+      }
+    })
+
+  type formTypeSchema = z.infer<typeof formSchema>
+
   const form = useForm<formTypeSchema>({
     resolver: zodResolver(formSchema),
   })
@@ -117,13 +123,13 @@ export function CreditCardForm({ data }: CreditCardFormProps) {
             className={`absolute left-5 top-0 -translate-y-1/2 bg-white px-[2px] ${errors.name ? 'text-red-500' : 'text-black'} text-sm font-semibold transition-colors duration-200`}
             htmlFor="name"
           >
-            Nome completo
+            {t('NameInput.input')}
           </label>
           <input
             type="text"
             id="name"
             {...register('name')}
-            placeholder="Digite seu nome"
+            placeholder={t('NameInput.placeholder')}
             className={`${inputDefaultStyle} ${errors.name ? 'border-red-500 focus:border-red-500' : 'border-gray focus:border-black'} w-full`}
           />
           {errors.name ? (
@@ -138,7 +144,7 @@ export function CreditCardForm({ data }: CreditCardFormProps) {
             className={`absolute left-5 top-0 -translate-y-1/2 bg-white px-[2px] ${errors.cpf ? 'text-red-500' : 'text-black'} text-sm font-semibold transition-colors duration-200`}
             htmlFor="cpf"
           >
-            CPF
+            {t('CPFInput.input')}
           </label>
           <input
             type="text"
@@ -146,7 +152,7 @@ export function CreditCardForm({ data }: CreditCardFormProps) {
             {...register('cpf')}
             maxLength={14}
             onInput={maxLengthCheck}
-            placeholder="Digite seu CPF"
+            placeholder={t('CPFInput.placeholder')}
             className={`${inputDefaultStyle} ${errors.cpf ? 'border-red-500 focus:border-red-500' : 'border-gray focus:border-black'} w-full`}
           />
           {errors.name ? (
@@ -161,14 +167,14 @@ export function CreditCardForm({ data }: CreditCardFormProps) {
             className={`absolute left-5 top-0 -translate-y-1/2 bg-white px-[2px] ${errors.creditCard ? 'text-red-500' : 'text-black'} text-sm font-semibold transition-colors duration-200`}
             htmlFor="creditCard"
           >
-            Número do cartão
+            {t('CreditCardInput.input')}
           </label>
           <input
             type="text"
             id="creditCard"
             {...register('creditCard')}
             maxLength={19}
-            placeholder="Digite o número do seu cartão"
+            placeholder={t('CreditCardInput.placeholder')}
             className={`${inputDefaultStyle} ${errors.creditCard ? 'border-red-500 focus:border-red-500' : 'border-gray focus:border-black'} w-full`}
           />
           {errors.creditCard ? (
@@ -184,7 +190,7 @@ export function CreditCardForm({ data }: CreditCardFormProps) {
               className={`absolute left-5 top-0 -translate-y-1/2 bg-white px-[2px] ${errors.validate ? 'text-red-500' : 'text-black'} text-sm font-semibold transition-colors duration-200`}
               htmlFor="validate"
             >
-              Validade
+              {t('ValidateInput.input')}
             </label>
             <input
               type="text"
@@ -207,7 +213,7 @@ export function CreditCardForm({ data }: CreditCardFormProps) {
               className={`absolute left-5 top-0 -translate-y-1/2 bg-white px-[2px] ${errors.cvv ? 'text-red-500' : 'text-black'} text-sm font-semibold transition-colors duration-200`}
               htmlFor="cvv"
             >
-              CVV
+              {t('CVVInput.input')}
             </label>
             <input
               id="cvv"
@@ -235,7 +241,7 @@ export function CreditCardForm({ data }: CreditCardFormProps) {
                 className={`absolute left-5 top-0 -translate-y-1/2 bg-white px-[2px] ${errors.parcelValue ? 'text-red-500' : 'text-black'} text-sm font-semibold transition-colors duration-200 z-20`}
                 htmlFor="parcelValue"
               >
-                Parcelas
+                {t('InstallmentsInput.input')}
               </label>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
@@ -243,7 +249,9 @@ export function CreditCardForm({ data }: CreditCardFormProps) {
                     className={`${errors.parcelValue ? 'border-red-500' : 'border-gray'}`}
                     id="parcelValue"
                   >
-                    <SelectValue placeholder="Selecione o número de parcelas" />
+                    <SelectValue
+                      placeholder={t('InstallmentsInput.placeholder')}
+                    />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
@@ -256,7 +264,7 @@ export function CreditCardForm({ data }: CreditCardFormProps) {
                             payCreditCardValue / parcel.parcels
                           ).toString()}
                         >
-                          {parcel.parcels}x de{' '}
+                          {parcel.parcels}x {t('InstallmentsInput.span-text')}{' '}
                           {formatCurrency(payCreditCardValue / parcel.parcels)}
                         </SelectItem>
                       ))}
@@ -272,7 +280,7 @@ export function CreditCardForm({ data }: CreditCardFormProps) {
             </FormItem>
           )}
         ></FormField>
-        <Button type="submit" name="Pagar" />
+        <Button type="submit" name={t('submit-button')} />
       </form>
     </Form>
   )

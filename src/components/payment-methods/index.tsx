@@ -8,9 +8,10 @@ import { Form, FormControl, FormField, FormItem, FormLabel } from '../ui/form'
 import { RadioGroup, RadioGroupItem } from '../ui/radio-group'
 
 import { formatCurrency } from '@/utils/format-currency'
-import { usePathname, useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { parcels } from '@/utils/payment-values'
 import { Button } from '../button'
+import { useLocale, useTranslations } from 'next-intl'
 
 const formScheme = z.object({
   type: z.enum(
@@ -33,7 +34,9 @@ type formSchemeType = z.infer<typeof formScheme>
 
 export function PaymentMethods() {
   const router = useRouter()
-  const pathname = usePathname()
+
+  const t = useTranslations('payment-methods')
+  const locale = useLocale()
 
   const form = useForm<formSchemeType>({
     resolver: zodResolver(formScheme),
@@ -46,7 +49,7 @@ export function PaymentMethods() {
     localStorage.setItem('payment-method', type)
     console.log('Método de pagamento: ', type)
 
-    router.push(pathname + '/payment-pix')
+    router.push(`/${locale}/payment-pix`)
   }
 
   return (
@@ -80,8 +83,11 @@ export function PaymentMethods() {
                           {formatCurrency(parcels[0].value)}
                         </h3>
                         <p className="text-base font-semibold text-green">
-                          Ganhe <span className="font-extrabold">3%</span> de
-                          Cashback
+                          {t('Cashback.pre-message')}{' '}
+                          <span className="font-extrabold">
+                            {t('Cashback.value')}
+                          </span>{' '}
+                          {t('Cashback.post-message')}
                         </p>
                       </div>
 
@@ -94,7 +100,7 @@ export function PaymentMethods() {
                           <span className="font-extrabold">
                             {formatCurrency(parcels[0].value * (3 / 100))}
                           </span>{' '}
-                          de volta no seu Pix na hora
+                          {t('BonusTag.cashback-message')}
                         </p>
                       </BonusTag>
                     </div>
@@ -106,7 +112,7 @@ export function PaymentMethods() {
               </FormItem>
 
               <FormItem className="w-full">
-                <PaymentLabel label="Pix Parcelado" />
+                <PaymentLabel label={t('pix-installments')} />
                 {parcels.map((value) => {
                   if (value.parcels > 1) {
                     return (
@@ -135,9 +141,9 @@ export function PaymentMethods() {
                               >
                                 <p className="text-white text-xs xs:text-base font-semibold truncate">
                                   <span className="font-extrabold">
-                                    -3% de juros:
+                                    {t('BonusTag.fee')}
                                   </span>{' '}
-                                  Melhor opção de parcelamento
+                                  {t('BonusTag.fee-message')}
                                 </p>
                               </BonusTag>
                             ) : null}
@@ -156,7 +162,7 @@ export function PaymentMethods() {
           )}
         ></FormField>
 
-        <Button name="Confirmar" />
+        <Button name={t('submit-button')} />
       </form>
     </Form>
   )

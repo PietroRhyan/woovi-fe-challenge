@@ -3,15 +3,15 @@ import Image from 'next/image'
 
 import shieldCheck from '/public/assets/shield-check.svg'
 import grayLogo from '/public/gray-logo.svg'
+import { useTranslations } from 'next-intl'
 
 export function Footer() {
+  const t = useTranslations('footer')
   return (
     <footer className="w-full flex items-center justify-center px-4 pt-5 pb-[27px]">
       <div className="text-lightgraytext flex items-center justify-center gap-1.5">
         <Image src={shieldCheck} alt="" width={16} height={18} />
-        <span className="text-sm font-semibold">
-          Pagamento 100% seguro via:
-        </span>
+        <span className="text-sm font-semibold">{t('title')}</span>
 
         <div className="pb-1">
           <Image

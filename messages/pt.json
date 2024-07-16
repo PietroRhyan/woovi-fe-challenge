@@ -1,5 +1,91 @@
 {
   "payment-methods": {
-    "title": "João, como você quer pagar?"
+    "title": "João, como você quer pagar",
+    "pix-installments": "Pix Parcelado",
+    "Cashback": {
+      "pre-message": "Ganhe",
+      "value": "3%",
+      "post-message": "de cashback"
+    },
+    "BonusTag": {
+      "cashback-message": "de volta no seu Pix na hora",
+      "fee": "-3% de juros:",
+      "fee-message": "Melhor opção de parcelamento"
+    },
+    "submit-button": "Confirmar"
+  },
+  "payment-pix": {
+    "Title": {
+      "pre-title": "João, pague a entrada de",
+      "post-title": "pelo Pix"
+    },
+    "copy-to-clipboard": "Clique para copiar QR Code",
+    "payment-term": "Prazo de pagamento:",
+    "PaymentStatus": {
+      "entry": "1ª entrada no Pix",
+      "second": "2ª no cartão",
+      "rest": "Próximos meses"
+    },
+    "tec": "CET",
+    "how-works": "Como funciona?",
+    "identifier": "Identificador"
+  },
+  "payment-credit": {
+    "PaymentConfirmed": {
+      "title": "Obrigado, João!",
+      "description": "Seu pagamento foi confimado"
+    },
+    "PaymentForm": {
+      "title": "João, pague o restante no cartão",
+      "NameInput": {
+        "input": "Nome completo",
+        "placeholder": "Digite seu nome completo",
+        "Errors": {
+          "min": "Mínimo de 2 caracteres",
+          "max": "Máximo de 255 caracteres",
+          "letters": "Nome deve conter apenas letras"
+        }
+      },
+      "CPFInput": {
+        "input": "CPF",
+        "placeholder": "Digite o seu CPF",
+        "Errors": {
+          "invalid": "CPF inválido"
+        }
+      },
+      "CreditCardInput": {
+        "input": "Número do cartão",
+        "placeholder": "Digite o número do seu cartão",
+        "Errors": {
+          "invalid": "Número do cartão inválido"
+        }
+      },
+      "ValidateInput": {
+        "input": "Vencimento",
+        "placeholder": "00/00",
+        "Errors": {
+          "invalid": "Digite uma data válida"
+        }
+      },
+      "CVVInput": {
+        "input": "CVV",
+        "placeholder": "000",
+        "Errors": {
+          "invalid": "Digite um CVV válido"
+        }
+      },
+      "InstallmentsInput": {
+        "input": "Parcelas",
+        "placeholder": "Selecione um número de parcelas",
+        "span-text": "de",
+        "Errors": {
+          "invalid": "Selecione uma parcela"
+        }
+      },
+      "submit-button": "Pay"
+    }
+  },
+  "footer": {
+    "title": "Pagamento 100% seguro via:"
   }
 }

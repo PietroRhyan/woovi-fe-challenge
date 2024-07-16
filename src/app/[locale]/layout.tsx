@@ -30,7 +30,9 @@ export default async function RootLayout({
 
   return (
     <html lang={locale}>
-      <body className={`${nunito.className} bg-white text-black`}>
+      <body
+        className={`${nunito.className} bg-white text-black min-h-screen flex flex-col flex-grow`}
+      >
         <NextIntlClientProvider messages={messages}>
           <Navbar />
           {children}
