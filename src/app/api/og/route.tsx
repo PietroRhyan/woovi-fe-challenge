@@ -1,4 +1,4 @@
-import { ImageResponse } from 'next/og';
+import { ImageResponse } from 'next/og'
 
 export async function GET() {
   return new ImageResponse(
@@ -19,7 +19,7 @@ export async function GET() {
       >
         <div
           style={{
-            color: "#03D69D",
+            color: '#03D69D',
             fontWeight: 700,
           }}
         >
@@ -27,7 +27,7 @@ export async function GET() {
         </div>
         <div
           style={{
-            color: "#131313",
+            color: '#131313',
             fontSize: 24,
             fontWeight: 600,
             letterSpacing: -1,
@@ -41,5 +41,5 @@ export async function GET() {
       width: 1200,
       height: 630,
     },
-  );
+  )
 }

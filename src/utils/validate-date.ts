@@ -4,7 +4,7 @@ export function validateDate(date: string): boolean {
   const currentMonth = new Date().getMonth() + 1 // Zero-based month - January = 0
   const currentYear = new Date().getFullYear()
 
-  const month = Number(separateDate[0]) 
+  const month = Number(separateDate[0])
   const year = Number(separateDate[1]) + 2000 // Year 20xx
 
   if (year > currentYear) {
@@ -16,7 +16,7 @@ export function validateDate(date: string): boolean {
       return true
     }
     return false
-  } 
+  }
 
   return false
 }

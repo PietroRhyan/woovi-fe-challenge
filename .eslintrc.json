@@ -1,3 +1,10 @@
 {
-  "extends": "next/core-web-vitals"
+  "extends": "@rocketseat/eslint-config/react",
+  "rules": {
+    "tailwindcss/no-custom-classname": "off",
+    "no-unused-vars": "off",
+    "no-redeclare": "off",
+    "tailwindcss/migration-from-tailwind-2": "off",
+    "eslint-plugin-import/no-absolute-path": "off"
+  }
 }
