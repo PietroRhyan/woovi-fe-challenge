@@ -7,6 +7,7 @@ import { Footer } from '@/components/footer'
 
 import { NextIntlClientProvider } from 'next-intl'
 import { getMessages } from 'next-intl/server'
+import { SwitchLanguage } from '@/components/switch-language'
 
 const nunito = Nunito({ subsets: ['latin'] })
 
@@ -34,6 +35,7 @@ export default async function RootLayout({
         className={`${nunito.className} bg-white text-black min-h-screen flex flex-col flex-grow`}
       >
         <NextIntlClientProvider messages={messages}>
+          <SwitchLanguage />
           <Navbar />
           {children}
           <Footer />
